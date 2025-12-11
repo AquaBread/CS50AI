@@ -21,7 +21,6 @@ knowledge0 = And(
     # A's statement: "I am both a knight and a knave."
     # If A is a knight, what A said must be true
     Implication(AKnight, And(AKnight, AKnave)),
-    
     # If A is a knave, what A said must be false
     Implication(AKnave, Not(And(AKnight, AKnave))), 
 )
@@ -43,7 +42,6 @@ knowledge1 = And(
     # A's statement: "We are both knaves."
     # If A is a knight, what A said must be true
     Implication(AKnight, And(AKnave, BKnave)),
-    
     # If A is a knave, what A said must be false
     Implication(AKnave, Not(And(AKnave, BKnave))),
 )
@@ -65,14 +63,12 @@ knowledge2 = And(
     # A's statement: ""We are the same kind."
     # If A is a knight, what A said must be true
     Implication(AKnight, Or(And(AKnight, BKnight), And(AKnave, BKnave))),
-    
     # If A is a knave, what A said must be false
     Implication(AKnave, Not(Or(And(AKnight, BKnight), And(AKnave, BKnave)))),
     
     # B's statement: "We are of different kinds."
     # If B is a knight, what B said must be true
     Implication(BKnight, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
-    
     # If B is a knave, what B said must be false
     Implication(BKnave, Not(Or(And(AKnight, BKnave), And(AKnave, BKnight)))),
 )
