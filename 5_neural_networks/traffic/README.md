@@ -1,0 +1,3 @@
+I implemented a CNN to classify traffic sign images from the  dataset. I began with a simple architecture (one convolutional layer followed by pooling and a dense classifier), but this ended up to underfit and struggled with similar signs. I then increased model size by adding additional convolutional layers with more filters (32-64) and intermediate pooling, which improved feature extraction and accuracy. 
+
+To avoid overfitting as the model deepened, I added dropout layers (0.3) after the convolutional stack and in the dense classifier head. The final architecture (three convolutional layers, pooling, dropout, flatten, dense-128, softmax output) achieved strong generalization, reaching about 97% test accuracy while maintaining stable training behavior.
