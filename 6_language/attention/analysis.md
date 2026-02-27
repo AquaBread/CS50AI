@@ -1,18 +1,18 @@
 # Analysis
 
-## Layer TODO, Head TODO
+## Layer 8, Head 5
 
-TODO
-
-Example Sentences:
-- TODO
-- TODO
-
-## Layer TODO, Head TODO
-
-TODO
+The attention head seems to be paying most attention to the determiners before the noun token.
 
 Example Sentences:
-- TODO
-- TODO
+- I saw the [MASK] in the yard.
+- She opened a [MASK] carefully.
+
+## Layer 6, Head 10
+
+This is where the head payed most attention where the preposition onto the noun token. 
+
+Example Sentences:
+- He sat on the [MASK].
+- She walked to the [MASK] after work.
 

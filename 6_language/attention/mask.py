@@ -45,8 +45,13 @@ def get_mask_token_index(mask_token_id, inputs):
     Return the index of the token with the specified `mask_token_id`, or
     `None` if not present in the `inputs`.
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    # inputs["input_ids"] has shape: (batch_size=1, seq_len)
+    input_ids = inputs["input_ids"][0].numpy().tolist()
+
+    for i, token_id in enumerate(input_ids):
+        if token_id == mask_token_id:
+            return i
+    return None
 
 
 
@@ -55,8 +60,20 @@ def get_color_for_attention_score(attention_score):
     Return a tuple of three integers representing a shade of gray for the
     given `attention_score`. Each value should be in the range [0, 255].
     """
-    # TODO: Implement this function
-    raise NotImplementedError
+    # attention_score may be a Python float or a tf scalar tensor.
+    if hasattr(attention_score, "numpy"):
+        attention_score = float(attention_score.numpy())
+    else:
+        attention_score = float(attention_score)
+
+    # Clamp to [0, 1] just in case of tiny numerical drift
+    if attention_score < 0:
+        attention_score = 0.0
+    elif attention_score > 1:
+        attention_score = 1.0
+
+    value = int(round(attention_score * 255))
+    return (value, value, value)
 
 
 
@@ -70,13 +87,21 @@ def visualize_attentions(tokens, attentions):
     include both the layer number (starting count from 1) and head number
     (starting count from 1).
     """
-    # TODO: Update this function to produce diagrams for all layers and heads.
-    generate_diagram(
-        1,
-        1,
-        tokens,
-        attentions[0][0][0]
-    )
+    # attentions is a tuple: length = num_layers (e.g., 12)
+    # each attentions[layer] has shape: (batch=1, heads=12, seq_len, seq_len)
+    for layer_index, layer_attention in enumerate(attentions):
+        # layer_attention[0] -> (heads, seq_len, seq_len)
+        head_block = layer_attention[0]
+
+        num_heads = int(head_block.shape[0])
+        for head_index in range(num_heads):
+            weights = head_block[head_index].numpy()  # (seq_len, seq_len)
+            generate_diagram(
+                layer_index + 1,     # 1-indexed
+                head_index + 1,      # 1-indexed
+                tokens,
+                weights
+            )
 
 
 def generate_diagram(layer_number, head_number, tokens, attention_weights):
